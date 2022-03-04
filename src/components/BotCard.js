@@ -9,13 +9,30 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot }) {
+function BotCard({ bot,data,setData,armyData, setArmyData }) {
+  function onClick(){
+    if(armyData.find(e=> e.id === bot.id)){
+      console.log('Already Exists');
+    }else{
+      setArmyData([...armyData, bot])
+    }
+  }
+  function handleDelete(){
+    fetch('http://localhost:8002/bots/' + bot.id, {
+  method: 'DELETE',
+})
+.then(res => res.text()) // or res.json()
+.then(res => {
+  setArmyData(armyData.filter(e=>e.id !== bot.id));
+  setData(data.filter(e=>e.id !== bot.id));
+})
+  }
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        onClick={onClick}
       >
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />
@@ -47,9 +64,7 @@ function BotCard({ bot }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
-                }
+                onClick={handleDelete}
               >
                 x
               </button>

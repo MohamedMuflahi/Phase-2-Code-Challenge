@@ -1,13 +1,15 @@
 import React from "react";
-
-function YourBotArmy() {
+import BotSpecs from './BotSpecs'
+function YourBotArmy({data,setData,armyData, setArmyData}) {
   //your bot army code here...
 
   return (
     <div className="ui segment inverted olive bot-army">
       <div className="ui five column grid">
         <div className="row bot-army-row">
-          {/*...and here...*/}
+          {data.map(item=>{
+          return <BotSpecs key={item.id} bot={item} armyData={data} setArmyData={setData}/>
+        })}
           Your Bot Army
         </div>
       </div>
